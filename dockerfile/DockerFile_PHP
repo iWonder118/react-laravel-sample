@@ -1,0 +1,9 @@
+FROM --platform=arm64 php:8.3
+RUN apt update -y && \
+    apt install -y unzip && \
+    apt install -y git
+
+RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
+    php composer-setup.php && \
+    php composer-setup.php --install-dir=/usr/local/bin --filename=composer && \
+    php -r "unlink('composer-setup.php');"
