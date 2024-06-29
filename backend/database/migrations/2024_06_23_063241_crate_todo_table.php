@@ -11,7 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //
+        Schema::create("todos", function(Blueprint $table) {
+            $table->id();
+            $table->string("title")->comment("タイトル");
+            $table->text("description")->nullable()->comment("詳細");
+            $table->boolean("finished")->default(false)->comment("完了状態");
+            $table->timestamp("created_at")->useCurrent()->comment("作成日時");
+            $table->timestamp("updated_at")->nullable()->comment("更新日時");
+            $table->comment('ToDo');
+        });
     }
 
     /**
