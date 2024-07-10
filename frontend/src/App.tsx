@@ -25,7 +25,7 @@ const App = () => {
       <h1>ToDo List</h1>
       <ul>
         {todos.map((todo: Todo) => (
-          <li key={todo.id}>{todo.title}</li>
+          <li className={todo.finished ? "done" : ""} key={todo.id}>{todo.title}</li>
         ))}
       </ul>
     </div>
