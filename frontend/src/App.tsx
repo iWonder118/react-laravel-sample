@@ -1,34 +1,46 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { MouseEventHandler, useEffect, useState } from 'react'
+
 import './App.css'
+import { Todo } from "./types/Todo"
+import { getTodos } from  "./module/api"
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const [todos, setTodos] = useState<Todo[]>([]);
+  const [discriptionState, setDiscriptionState] = useState<Boolean[]>([]);
 
+  useEffect(() => {
+    const fetchTodos = async () => {
+      try {
+        const todoData = await getTodos();
+        setTodos(todoData);
+        setDiscriptionState(new Array(todoData.length).fill(false))
+      } catch (e) {
+        console.error('Error while fetching todos:', e);
+      }
+    }
+    fetchTodos();
+  }, []);
+
+  const showDiscription = (index: number) => {
+    const newDiscriptionState: Boolean[] = [...discriptionState];
+    newDiscriptionState[index] = !newDiscriptionState[index];
+    setDiscriptionState(newDiscriptionState);
+  }
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div className="container">
+      <h1>ToDo List</h1>
+      <ul>
+        {todos.map((todo: Todo, index: number) => (
+          <li className={todo.finished ? "done" : ""} key={todo.id} onClick={() => {showDiscription(index)}}>
+            {todo.title}
+            {discriptionState[index] ? 
+            <div>
+              {todo.description?? "詳細なし"}
+            </div> :  ""}
+          </li>
+        ))}
+      </ul>
+    </div>
   )
 }
 
