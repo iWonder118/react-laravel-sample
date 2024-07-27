@@ -48,8 +48,10 @@ class TodoController extends Controller
      * @return JsonResponse
      */
     public function update(Request $request): JsonResponse {
-        info($request->input("title"));
-        Todo::where("id", $request->input("id"))->update($request->all());
+        $params['title'] = $request->input("title");
+        $params['description'] = $request->input("description");
+        $params['finished'] = $request->input("finished");
+        Todo::where("id", $request->input("id"))->update($params);
         $todo = Todo::find($request->input("id"));
 
         return response()->json([
