@@ -30,9 +30,15 @@ const Task = (props: TaskProps) => {
     setUpdateState({ ...updateState, [name]: value });
   };
 
+  const handleFinished = async (event: React.MouseEvent<HTMLInputElement>) => {
+    const updateFinished = {...updateState, finished: Number(event.currentTarget.checked)};
+    const todo = await updateTodo(updateFinished);
+    setUpdateState(todo);
+  }
+
   return (
     <li className="mb-2 flex justify-start border rounded" key={updateState.id}>
-      <input type="checkbox" className="m-2 w-4 h-4" checked={Boolean(updateState.finished)}/>
+      <input type="checkbox" className="m-2 w-4 h-4" onClick={handleFinished} checked={Boolean(updateState.finished)}/>
       <div className="flex flex-col">
         {isEdit ? 
         <input name="title" value={updateState.title} onChange={handleChange} /> : 
