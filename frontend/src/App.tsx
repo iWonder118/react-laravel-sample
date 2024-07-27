@@ -4,7 +4,7 @@ import './App.css';
 import Task from "./component/Task";
 import { Todo } from "./types/Todo";
 import { CreateTodo } from "./types/CreateTodo";
-import { getTodos, createTodo } from  "./module/api";
+import { getTodos, createTodo, deleteTodo } from  "./module/api";
 
 const App = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
@@ -37,6 +37,13 @@ const App = () => {
     const { name, value } = event.target;
     setCreateState({ ...createState, [name]: value });
   };
+  
+  const deleteHandler = async (id: number) => {
+    const response = await deleteTodo(id);
+    if (response.code === 200) {
+      setTodos([...todos].filter(todo => todo.id !== id))
+    }
+  }
 
   return (
     <div className="container">
@@ -58,7 +65,7 @@ const App = () => {
       <h1>ToDo List</h1>
       <ul>
         {todos.map((todo: Todo) => (
-          <Task todo={todo} />
+          <Task todo={todo} deleteHandler={deleteHandler} />
         ))}
       </ul>
     </div>
