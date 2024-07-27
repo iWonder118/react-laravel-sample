@@ -31,9 +31,10 @@ services:
     command: bash -c "php-fpm"
 
   react:
-    image: node:latest
+    build:
+      context: ./dockerfile
+      dockerfile: DockerFile_React
     container_name: react
-    working_dir: /usr/src/app
     volumes:
       - ./frontend:/usr/src/app
     ports:
