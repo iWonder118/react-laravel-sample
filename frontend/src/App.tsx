@@ -1,9 +1,10 @@
 import { FormEventHandler, useEffect, useState } from 'react'
 
-import './App.css'
-import { Todo } from "./types/Todo"
-import { CreateTodo } from "./types/CreateTodo"
-import { getTodos, createTodo } from  "./module/api"
+import './App.css';
+import Task from "./component/Task";
+import { Todo } from "./types/Todo";
+import { CreateTodo } from "./types/CreateTodo";
+import { getTodos, createTodo } from  "./module/api";
 
 const App = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
@@ -32,8 +33,8 @@ const App = () => {
     setIsSubmitting(false);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = event.target;
     setCreateState({ ...createState, [name]: value });
   };
 
@@ -57,15 +58,7 @@ const App = () => {
       <h1>ToDo List</h1>
       <ul>
         {todos.map((todo: Todo) => (
-          <li className="mb-2 flex justify-start border rounded" key={todo.id} onClick={() => {}}>
-            <input type="checkbox" className="m-2 w-4 h-4" checked={Boolean(todo.finished)}/>
-            <div>
-              <div className="flex justify-start text-xl text-bold">{todo.title}</div>
-              <div>
-                {todo.description ? todo.description :"詳細なし"}
-              </div>
-            </div>
-          </li>
+          <Task todo={todo} />
         ))}
       </ul>
     </div>
