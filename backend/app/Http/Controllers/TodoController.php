@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Models\Todo;
 use App\Http\Requests\TodoCreateRequest;
+use App\Http\Requests\TodoIdCheckRequest;
 use App\Http\Requests\TodoUpdateRequest;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -42,7 +43,7 @@ class TodoController extends Controller
     }
 
     /**
-     * Todo 作成
+     * Todo 更新
      * 
      * @param TodoUpdateRequest $request
      * @return JsonResponse
@@ -59,4 +60,16 @@ class TodoController extends Controller
             "todo" => $todo
         ], Response::HTTP_OK);
     }
+
+    /** 
+     * TODO 削除
+     */
+    public function delete(TodoIdCheckRequest $request): JsonResponse {
+        Todo::destroy($request->input("id"));
+
+        return response()->json([
+            "code" => Response::HTTP_OK,
+        ], Response::HTTP_OK);
+    }
+
 }

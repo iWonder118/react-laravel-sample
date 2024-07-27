@@ -7,6 +7,7 @@ import React from "react";
 
 type TaskProps = {
   todo: Todo
+  deleteHandler: (id: number) => void
 }
 
 const Task = (props: TaskProps) => {
@@ -56,6 +57,7 @@ const Task = (props: TaskProps) => {
       </div>
       <div className="flex items-center">
         <button onClick={editHandler}>{isEdit ? "保存する" : "編集する"}</button>
+        <button onClick={()=>{props.deleteHandler(updateState.id)}}>削除する</button>
       </div>
     </li>
   )

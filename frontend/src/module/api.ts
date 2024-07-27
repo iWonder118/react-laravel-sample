@@ -22,7 +22,7 @@ export const createTodo = async (todo: CreateTodo) => {
         console.log(response);
         return response.data.todo;
     } catch (e) {
-        console.error('Error while fetching todos:', e);
+        console.error('Error while create todos:', e);
         throw e;
     }
 }
@@ -33,7 +33,18 @@ export const updateTodo = async (todo: UpdateTodo) => {
         console.log(response);
         return response.data.todo;
     } catch (e) {
-        console.error('Error while fetching todos:', e);
+        console.error('Error while update todos:', e);
+        throw e;
+    }
+}
+
+export const deleteTodo = async (id: number) => {
+    try {
+        const response = await axios.delete(`${API_BASE_URL}/todos`, {data: {id: id}});
+        console.log(response);
+        return response.data;
+    } catch (e) {
+        console.error('Error while update todos:', e);
         throw e;
     }
 }
